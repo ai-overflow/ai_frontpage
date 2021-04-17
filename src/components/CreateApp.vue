@@ -1,41 +1,38 @@
 <template>
   <div>
-      Git-URL:
+    <v-card>
       <v-text-field
-        lab
+        label="Git-URL"
+        hide-details="auto"
         v-model="gitURL"
-        />
-        <button
-        @click="downloadGit">
-            erstellen
-        </button>
-        <AppList />
+      ></v-text-field>
+      <v-btn @click="downloadGit">herunterladen</v-btn>
+    </v-card>
+    <AppList />
   </div>
 </template>
 
 <script>
-import GitService from '@/services/GitService'
-import AppList from '@/components/AppList'
+import GitService from "@/services/GitService";
+import AppList from "@/components/AppList";
 
 export default {
-    data() {
-        return {
-            gitURL: ''
-        }
+  data() {
+    return {
+      gitURL: "",
+    };
+  },
+  components: {
+    AppList,
+  },
+  methods: {
+    downloadGit() {
+      console.log("Downloading: ", this.gitURL);
+      GitService.createProject(this.gitURL);
     },
-    components: {
-        AppList
-    },
-    methods: {
-        downloadGit() {
-            console.log('Downloading: ', this.gitURL);
-            GitService.createProject(this.gitURL);
-            
-        }
-    }
-}
+  },
+};
 </script>
 
 <style>
-
 </style>

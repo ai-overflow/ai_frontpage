@@ -1,8 +1,8 @@
-import Vue from 'vue'
+import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
 import axios from 'axios';
-import vuetify from './plugins/vuetify';
+import vuetify from '@/plugins/vuetify';
 
 Vue.config.productionTip = false;
 axios.defaults.headers.common['Accept'] = 'application/json';
@@ -13,8 +13,9 @@ axios.defaults.baseURL = process.env.VUE_APP_ROOT_API || 'http://localhost:5000/
 console.log(process.env.VUE_APP_ROOT_API);
 
 new Vue({
-  render: h => h(App),
+  vuetify,
+  router: router,
+  render: h => h(App)
 }).$mount('#app');
 
-Vue.use(router);
 Vue.use(vuetify);

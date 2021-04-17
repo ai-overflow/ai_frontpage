@@ -1,30 +1,25 @@
 <template>
-<div>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/create">Anwendung Erstellen</router-link>
-  </div>
-  <router-view />
-</div>
+  <v-app>
+    <v-app-bar color="indigo darken-2" dark>
+      <v-icon large class="mr-4">mdi-atom</v-icon>
+
+      <v-toolbar-title>AI Administration</v-toolbar-title>
+    </v-app-bar>
+    <navigation-bar />
+    <router-view />
+  </v-app>
 </template>
 
 <script>
+import NavigationBar from "@/components/NavigationBar";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    
-  }
-}
+    NavigationBar,
+  },
+};
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
