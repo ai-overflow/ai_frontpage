@@ -15,7 +15,7 @@
         <v-alert
           border="left"
           color="primary"
-          v-if="!success"
+          v-if="success"
           light
           colored-border
           elevation="2"
@@ -40,15 +40,15 @@
         </v-text-field>
       </v-col>
     </v-row>
-    <v-row>
-      <AppList />
+    <v-row v-if="infoText">
+      <download-info :info="infoText"/>
     </v-row>
   </v-container>
 </template>
 
 <script>
 import GitService from "@/services/GitService";
-import AppList from "@/components/AppList";
+import DownloadInfo from './DownloadInfo.vue';
 
 export default {
   data() {
@@ -57,17 +57,17 @@ export default {
       loading: false,
       error: "",
       success: false,
+      infoText: undefined,
     };
   },
-  components: {
-    AppList,
-  },
+  components: {DownloadInfo},
   methods: {
     downloadGit() {
       console.log("Downloading: ", this.gitURL);
       this.loading = true;
       this.success = false;
       this.error = "";
+      this.infoText = undefined;
       GitService.createProject(this.gitURL)
         .then((e) => {
           this.loading = false;
@@ -77,6 +77,7 @@ export default {
             this.error = e.error;
           } else {
             this.success = true;
+            this.infoText = e.abstract;
           }
         })
         .catch(() => {
