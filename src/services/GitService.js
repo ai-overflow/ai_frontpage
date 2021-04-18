@@ -12,6 +12,13 @@ class GitService {
                 return response.data;
             });
     }
+
+    listProjects(options) {
+        return axios.get(API_PATH, parseOptionsToAxiosConfig(options))
+        .then(response => {
+            return response.data;
+        });
+    }
 }
 
 export default new GitService();
