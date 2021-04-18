@@ -1,12 +1,14 @@
 <template>
   <v-app>
-    <v-app-bar color="indigo darken-2" dark>
-      <v-icon large class="mr-4">mdi-atom</v-icon>
-
+    <v-app-bar color="primary" dark app>
       <v-toolbar-title>AI Administration</v-toolbar-title>
     </v-app-bar>
     <navigation-bar />
-    <router-view />
+    <v-main>
+      <v-card class="ma-4 pa-4">
+        <router-view />
+      </v-card>
+    </v-main>
   </v-app>
 </template>
 

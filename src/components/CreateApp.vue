@@ -1,15 +1,21 @@
 <template>
-  <div>
-    <v-card>
-      <v-text-field
-        label="Git-URL"
-        hide-details="auto"
-        v-model="gitURL"
-      ></v-text-field>
-      <v-btn @click="downloadGit">herunterladen</v-btn>
-    </v-card>
-    <AppList />
-  </div>
+  <v-container class="form-container">
+    <v-row>
+      <v-col>
+        <v-text-field
+          label="Git-URL"
+          v-model="gitURL"
+          append-outer-icon="mdi-send"
+           @click:append-outer="downloadGit"
+          filled
+          clearable
+        ></v-text-field>
+      </v-col>
+    </v-row>
+    <v-row>
+      <AppList />
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -34,5 +40,8 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.form-container {
+  max-width: 500px;
+}
 </style>
