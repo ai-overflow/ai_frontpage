@@ -86,21 +86,9 @@ export default {
   components: { VCheckbox },
   created() {
     for(const [key, item] of Object.entries(this.inputs)) {
-        switch(item.type) {
-            /*case 'multiselect':
-            case 'select':
-            case 'input':
-            case 'textarea':
-            case 'slider':
-            case 'image':
-            case 'radio':
-                this.inputData[key] = "";
-                break;*/
-            case 'checkbox':
-                this.inputData[key] = [];
-                break;
-            default:
-                break;
+        if(item.type === 'checkbox') {
+            this.inputData[key] = [];
+            break;
         }
         console.log(this.inputData);
     }

@@ -1,5 +1,9 @@
 <template>
   <div>
+    <v-card class="ma-4 pa-4">
+      <h2>YAML / JSON</h2>
+      <codemirror v-model="description" />
+    </v-card>
     <v-card class="ma-4 pa-4" v-if="description !== ''">
       <h2>Validierung</h2>
       <v-container>
@@ -40,18 +44,40 @@
       </v-container>
     </v-card>
     <v-card class="ma-4 pa-4" v-if="description !== ''">
+      <h2>Verbindungen</h2>
+      <v-expansion-panels>
+        <v-expansion-panel
+          v-for="[name, item] of Object.entries(getYamlData.connection)"
+          :key="name"
+        >
+          <v-expansion-panel-header>
+            {{ name }}
+          </v-expansion-panel-header>
+          <v-expansion-panel-content>
+            {{ item }}
+            <v-card color="primary">
+              <v-card-title class="text-center justify-center white--text">
+                {{item.method}} {{item.protocol.toLowerCase()}}://localhost:{{item.port}}{{item.path}}
+              </v-card-title>
+              <v-tabs background-color="primary" center-active dark centered>
+                <v-tab>Params</v-tab>
+                <v-tab>Headers</v-tab>
+                <v-tab>Body</v-tab>
+              </v-tabs>
+            </v-card>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+      </v-expansion-panels>
+    </v-card>
+    <v-card class="ma-4 pa-4" v-if="description !== ''">
       <h2>Eingabe</h2>
       <v-container v-if="getYamlData && getYamlData.input">
         <DisplayInput :inputs="getYamlData.input" v-model="inputData" />
       </v-container>
     </v-card>
     <v-card class="ma-4 pa-4" v-if="description !== ''">
-      <h2>Ausgabe: JSON</h2>
+      <h2>JSON-Repräsentation</h2>
       <pre>{{ inputData }}</pre>
-    </v-card>
-    <v-card class="ma-4 pa-4">
-      <h2>YAML / JSON</h2>
-      <codemirror v-model="description" />
     </v-card>
   </div>
 </template>
