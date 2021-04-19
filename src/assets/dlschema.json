@@ -1,0 +1,553 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "title": "JSON Schema for DL Config Files",
+    "description": "TODO",
+    "type": "object",
+    "properties": {
+        "entryPoint": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]+$",
+            "description": "This Connection will be called with the first request. Must be a value of connection",
+            "defaultSnippets": [
+                {
+                    "label": "main",
+                    "body": "\"main\""
+                }
+            ]
+        },
+        "name": {
+            "type": "string",
+            "description": "Project Title. Will be used as a tab label",
+            "examples": [
+                "Example Project"
+            ]
+        },
+        "authors": {
+            "type": "array",
+            "description": "Authors of the Project",
+            "items": {
+                "type": "string"
+            },
+            "examples": [
+                {"authors": ["John Doe", "Max Mustermann"]}
+            ]
+        },
+        "description": {
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 300,
+            "description": "Project Description. May be used to describe the project",
+            "examples": [
+                "This is an example project which is coloring an image"
+            ]
+        },
+        "connection": {
+            "type": "object",
+            "description": "List all Connection which will be used for this project",
+            "patternProperties": {
+                "^[a-z][a-zA-Z0-9_-]+$": {
+                    "type": "object",
+                    "description": "Name of the connection. Can be used in any variable type via {{input.NAME}}",
+                    "properties": {
+                        "port": {
+                            "type": "integer",
+                            "description": "Port Number",
+                            "minimum": 1024,
+                            "maximum": 65535,
+                            "examples": [
+                                8080,
+                                8443
+                            ]
+                        },
+                        "protocol": {
+                            "type": "string",
+                            "description": "Connection Protocol",
+                            "oneOf": [
+                                {
+                                    "const": "HTTP",
+                                    "description": "Connection is via plain HTTP"
+                                },
+                                {
+                                    "const": "HTTPS",
+                                    "description": "Connection is via secure HTTPS. Not necessary if local adress"
+                                }
+                            ]
+                        },
+                        "path": {
+                            "type": "string",
+                            "pattern": "^\/.+\/$",
+                            "description": "Web Path which should be accessed. Must start and end with '/'",
+                            "examples": [
+                                "\"/image/test/{{input.algo}}/\"",
+                                "\"/image/\""
+                            ]
+                        },
+                        "method": {
+                            "type": "string",
+                            "description": "HTTP Method",
+                            "enum": [
+                                "GET",
+                                "PUT",
+                                "PATCH",
+                                "POST",
+                                "DELETE",
+                                "HEAD",
+                                "COPY",
+                                "OPTIONS",
+                                "LINK",
+                                "UNLINK",
+                                "PURGE",
+                                "LOCK",
+                                "UNLOCK",
+                                "PROPFIND",
+                                "VIEW"
+                            ]
+                        },
+                        "params": {
+                            "type": "object",
+                            "description": "Additional Query Parameter",
+                            "defaultSnippets": [
+                                {
+                                    "label": "Query Parameter for ?q=input_query, with input_query as a variable from the input 'query'",
+                                    "body": {
+                                        "q": "\"{{input.query}}\""
+                                    }
+                                }
+                            ],
+                            "patternProperties": {
+                                "^[A-Za-z0-9_-]+$": {
+                                    "type": "string",
+                                    "description": "Query parameter, will be called like ?q=input"
+                                }
+                            }
+                        },
+                        "headers": {
+                            "type": "object",
+                            "description": "Additional Header data",
+                            "defaultSnippets": [
+                                {
+                                    "label": "User-Agent: Firefox 47.0",
+                                    "body": {
+                                        "User-Agent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0"
+                                    }
+                                }
+                            ],
+                            "patternProperties": {
+                                "^[A-Za-z0-9_-]+$": {
+                                    "type": "string",
+                                    "description": "Header data"
+                                }
+                            }
+                        },
+                        "body": {
+                            "type": "object",
+                            "description": "Body payload data",
+                            "properties": {
+                                "type": {
+                                    "type": "string",
+                                    "description": "payload type.  Can be form-data, binary or raw",
+                                    "oneOf": [
+                                        {
+                                            "const": "form-data",
+                                            "description": "Form data, in key-value-pair format required"
+                                        },
+                                        {
+                                            "const": "binary",
+                                            "description": "Binary data, e.g. image file"
+                                        },
+                                        {
+                                            "const": "raw",
+                                            "description": "Raw Text data, e.g. JSON, HTML, XML"
+                                        }
+                                    ]
+                                }
+                            },
+                            "required": [
+                                "type"
+                            ],
+                            "if": {
+                                "properties": {
+                                    "type": {
+                                        "const": "form-data"
+                                    }
+                                }
+                            },
+                            "then": {
+                                "properties": {
+                                    "input": {
+                                        "type": "object",
+                                        "description": "Form data key-value-pair",
+                                        "patternProperties": {
+                                            "^[A-Za-z0-9_-]+$": {
+                                                "description": "Key of the form data",
+                                                "type": "object",
+                                                "properties": {
+                                                    "type": {
+                                                        "description": "File Type, can be file or text",
+                                                        "type": "string",
+                                                        "oneOf": [
+                                                            {
+                                                                "const": "file",
+                                                                "description": "Value is file Type, must be binary data. Can be a variable"
+                                                            },
+                                                            {
+                                                                "const": "text",
+                                                                "description": "Value is plain text"
+                                                            }
+                                                        ]
+                                                    },
+                                                    "value": {
+                                                        "description": "value of form data",
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "else": {
+                                "properties": {
+                                    "input": {
+                                        "type": "string",
+                                        "description": "body data to sent to the server",
+                                        "examples": [
+                                            "\"{}\"",
+                                            "\"{'q': '{{input.text}}'}\""
+                                        ]
+                                    }
+                                }
+                            },
+                            "defaultSnippets": [
+                                {
+                                    "label": "form-data",
+                                    "body": {
+                                        "type": "form-data",
+                                        "input": {
+                                            "example": {
+                                                "type": "text",
+                                                "value": "lorem ipsum"
+                                            }
+                                        }
+                                    }
+                                },
+                                {
+                                    "label": "raw",
+                                    "body": {
+                                        "type": "raw",
+                                        "input": "\"{'json': true}\""
+                                    }
+                                },
+                                {
+                                    "label": "binary",
+                                    "body": {
+                                        "type": "binary",
+                                        "input": "\"{{input.image}}\""
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "required": [
+                        "port",
+                        "protocol",
+                        "path",
+                        "method"
+                    ]
+                }
+            }
+        },
+        "input": {
+            "description": "Input parameters. This parameters will be transformed into GUI elements",
+            "patternProperties": {
+                "^[a-z][a-zA-Z0-9_-]+$": {
+                    "description": "Name of the input Element. Can be used as a variable for various purposes. Reference with: {{input.NAME}}",
+                    "type": "object",
+                    "properties": {
+                        "label": {
+                            "type":"string",
+                            "description": "Human readable label to describe the input",
+                            "examples": ["Username", "Select Color"]
+                        },
+                        "type": {
+                            "type": "string",
+                            "description": "Type of the input element",
+                            "oneOf": [
+                                {
+                                    "const": "image",
+                                    "description": "Requests an image as raw bytes or base64. Value depends on 'value' parameter"
+                                },
+                                {
+                                    "const": "input",
+                                    "description": "Single line raw text input. Returns a string"
+                                },
+                                {
+                                    "const": "slider",
+                                    "description": "Slider. Can have min and max value, defaults to 0 to 100. Returns a number"
+                                },
+                                {
+                                    "const": "textarea",
+                                    "description": "Multi-line raw text input"
+                                },
+                                {
+                                    "const": "select",
+                                    "description": "select different given attributes"
+                                },
+                                {
+                                    "const": "multiselect",
+                                    "description": "Select multiple different attributes. Returns a csv of elements"
+                                },
+                                {
+                                    "const": "checkbox",
+                                    "description": "Select multiple different attributes. Returns a csv of elements"
+                                },
+                                {
+                                    "const": "radio",
+                                    "description": "Select single attribute from a list of attributes. Returns attribute as string"
+                                }
+                            ]
+                        }
+                    },
+                    "required": [
+                        "type",
+                        "label"
+                    ],
+                    "if": {
+                        "properties": {
+                            "type": {
+                                "const": "image"
+                            }
+                        }
+                    },
+                    "then": {
+                        "properties": {
+                            "accepts": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string",
+                                    "enum": [
+                                        "image/jpg",
+                                        "image/jpeg",
+                                        "image/gif",
+                                        "image/png"
+                                    ]
+                                }
+                            },
+                            "value": {
+                                "type": "string",
+                                "enum": [
+                                    "binary",
+                                    "base64"
+                                ]
+                            },
+                            "dimensions": {
+                                "type": "object",
+                                "description": "Accepted dimensions of the given image",
+                                "properties": {
+                                    "min": {
+                                        "type": "object",
+                                        "description": "minimum size of the image",
+                                        "properties": {
+                                            "width": {
+                                                "type": "integer"
+                                            },
+                                            "height": {
+                                                "type": "integer"
+                                            }
+                                        },
+                                        "required": [
+                                            "width",
+                                            "height"
+                                        ]
+                                    },
+                                    "max": {
+                                        "type": "object",
+                                        "description": "maximum size of the image",
+                                        "properties": {
+                                            "width": {
+                                                "type": "integer"
+                                            },
+                                            "height": {
+                                                "type": "integer"
+                                            }
+                                        },
+                                        "required": [
+                                            "width",
+                                            "height"
+                                        ]
+                                    },
+                                    "optimal": {
+                                        "type": "object",
+                                        "description": "optimal size of the image",
+                                        "properties": {
+                                            "width": {
+                                                "type": "integer"
+                                            },
+                                            "height": {
+                                                "type": "integer"
+                                            }
+                                        },
+                                        "required": [
+                                            "width",
+                                            "height"
+                                        ]
+                                    }
+                                }
+                            }
+                        },
+                        "required": [
+                            "value"
+                        ]
+                    },
+                    "else": {
+                        "if": {
+                            "properties": {
+                                "type": {
+                                    "enum": [
+                                        "select",
+                                        "checkbox",
+                                        "radio",
+                                        "multiselect"
+                                    ]
+                                }
+                            }
+                        },
+                        "then": {
+                            "properties": {
+                                "values": {
+                                    "type": "array",
+                                    "description": "Selectable value",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "required": ["values"]
+                        },
+                        "else": {
+                            "if": {
+                                "properties": {
+                                    "type": {
+                                        "enum": [
+                                            "input",
+                                            "textarea"
+                                        ]
+                                    }
+                                }
+                            },
+                            "then": {
+                                "properties": {
+                                    "values": {
+                                        "type": "object",
+                                        "description": "input limitations",
+                                        "properties": {
+                                            "regex": {
+                                                "description": "match the input against this regular expression",
+                                                "type": "string",
+                                                "examples": ["\"[A-Za-z0-9]+\""]
+                                            },
+                                            "length": {
+                                                "type": "object",
+                                                "description": "length limits for input",
+                                                "properties": {
+                                                    "min": {
+                                                        "type": "integer"
+                                                    },
+                                                    "max": {
+                                                        "type": "integer"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "required": ["values"]
+                            },
+                            "else": {
+                                "properties": {
+                                    "values": {
+                                        "type": "object",
+                                        "description": "input limitations",
+                                        "properties": {
+                                            "min": {
+                                                "type": "number"
+                                            },
+                                            "max": {
+                                                "type": "number"
+                                            },
+                                            "stepSize": {
+                                                "type": "number"
+                                            }
+                                        },
+                                        "required": [
+                                            "min",
+                                            "max",
+                                            "stepSize"
+                                        ]
+                                    }
+                                }
+                            },
+                            "required": ["values"]
+                        }
+                    }
+                }
+            }
+        },
+        "output": {
+            "type": "object",
+            "description": "",
+            "patternProperties": {
+                "^[a-z][a-zA-Z0-9_-]+$": {
+                    "type": "object",
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "description": "",
+                            "enum": ["list", "polygon", "image", "html"]
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "required": [
+        "entryPoint",
+        "name",
+        "connection",
+        "input",
+        "output"
+    ],
+    "defaultSnippets": [
+        {
+            "label": "example project",
+            "body": {
+                "entryPoint": "main",
+                "name": "Example Project",
+                "connection": {
+                    "main": {
+                        "port": 8085,
+                        "protocol": "HTTP",
+                        "path": "/image/test/{{input.slider}}/",
+                        "method": "GET"
+                    }
+                },
+                "input": {
+                    "slider": {
+                        "type": "slider",
+                        "label": "Seed",
+                        "values": {
+                            "min": 0,
+                            "max": 1,
+                            "stepSize": 0.01
+                        }
+                    }
+                },
+                "output": {
+                    "outputA": {
+                        "type": "list"
+                    }
+                }
+            }
+        }
+    ]
+}

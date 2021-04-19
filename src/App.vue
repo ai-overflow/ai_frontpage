@@ -5,9 +5,9 @@
     </v-app-bar>
     <navigation-bar />
     <v-main>
-      <v-card class="ma-4 pa-4">
+      <v-container>
         <router-view />
-      </v-card>
+      </v-container>
     </v-main>
   </v-app>
 </template>

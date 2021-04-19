@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-card class="ma-4 pa-4">
     <h2>Projekte</h2>
     <v-container>
       <v-list two-line>
@@ -9,7 +9,10 @@
           multiple
         >
           <template v-for="(item, index) in items">
-            <v-list-item :key="item.project_name + index" :to="'/project/' + index">
+            <v-list-item
+              :key="item.project_name + index"
+              :to="'/project/' + index"
+            >
               <template v-slot:default="{ active }">
                 <v-list-item-content>
                   <v-list-item-title
@@ -26,7 +29,9 @@
                 </v-list-item-content>
 
                 <v-list-item-action>
-                  <v-list-item-action-text class="pink--text">TODO</v-list-item-action-text>
+                  <v-list-item-action-text class="pink--text"
+                    >TODO</v-list-item-action-text
+                  >
 
                   <v-icon v-if="!active" color="grey lighten-1">
                     mdi-send-outline
@@ -42,7 +47,7 @@
         </v-list-item-group>
       </v-list>
     </v-container>
-  </div>
+  </v-card>
 </template>
 
 <script>
@@ -50,6 +55,7 @@ import GitService from "@/services/GitService";
 
 export default {
   created() {
+    //TODO: This will be called multiple times, replace with somthing better
     console.log("Test");
     GitService.listProjects().then((e) => {
       this.items = e;

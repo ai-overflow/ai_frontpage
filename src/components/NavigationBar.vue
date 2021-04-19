@@ -41,6 +41,11 @@ export default {
           icon: "mdi-format-list-bulleted",
           link: "/projects",
         },
+        {
+          title: "Playground",
+          icon: "mdi-controller-classic",
+          link: "/playground",
+        },
       ],
     };
   },
