@@ -5,6 +5,7 @@ import axios from 'axios';
 import vuetify from '@/plugins/vuetify';
 import VueCodemirror from 'vue-codemirror';
 
+
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/base16-dark.css';
 import 'codemirror/mode/yaml/yaml.js';

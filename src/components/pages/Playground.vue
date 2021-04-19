@@ -42,8 +42,12 @@
     <v-card class="ma-4 pa-4" v-if="description !== ''">
       <h2>Eingabe</h2>
       <v-container v-if="getYamlData && getYamlData.input">
-        <DisplayInput :inputs="getYamlData.input" />
+        <DisplayInput :inputs="getYamlData.input" v-model="inputData" />
       </v-container>
+    </v-card>
+    <v-card class="ma-4 pa-4" v-if="description !== ''">
+      <h2>Ausgabe: JSON</h2>
+      <pre>{{ inputData }}</pre>
     </v-card>
     <v-card class="ma-4 pa-4">
       <h2>YAML / JSON</h2>
@@ -67,6 +71,7 @@ export default {
     return {
       description: "",
       validationResult: undefined,
+      inputData: {},
     };
   },
   watch: {
@@ -83,12 +88,12 @@ export default {
   },
   components: { DisplayInput, codemirror },
   methods: {
-      getErrorFromSchema(schema) {
-          if(schema.oneOf) {
-              return schema.oneOf.map(e => e.const);
-          }
+    getErrorFromSchema(schema) {
+      if (schema.oneOf) {
+        return schema.oneOf.map((e) => e.const);
       }
-  }
+    },
+  },
 };
 </script>
 
