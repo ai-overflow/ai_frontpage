@@ -50,14 +50,19 @@
           v-for="[name, item] of Object.entries(getYamlData.connection)"
           :key="name"
         >
-          <v-expansion-panel-header>
+          <v-expansion-panel-header disable-icon-rotate>
             {{ name }}
+            <template v-slot:actions v-if="getYamlData.entryPoint === name">
+              <v-icon color="primary"> mdi-star </v-icon>
+            </template>
           </v-expansion-panel-header>
           <v-expansion-panel-content>
             {{ item }}
             <v-card color="primary">
               <v-card-title class="text-center justify-center white--text">
-                {{item.method}} {{item.protocol.toLowerCase()}}://localhost:{{item.port}}{{item.path}}
+                {{ item.method }}
+                {{ item.protocol.toLowerCase() }}://localhost:{{ item.port
+                }}{{ item.path }}
               </v-card-title>
               <v-tabs background-color="primary" center-active dark centered>
                 <v-tab>Params</v-tab>

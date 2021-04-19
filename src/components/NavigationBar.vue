@@ -46,6 +46,11 @@ export default {
           icon: "mdi-controller-classic",
           link: "/playground",
         },
+        {
+          title: "Container Verwaltung",
+          icon: "mdi-docker",
+          link: "/docker",
+        },
       ],
     };
   },

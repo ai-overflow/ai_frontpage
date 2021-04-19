@@ -5,6 +5,7 @@ import Home from "@/components/pages/Home.vue";
 import AppList from "@/components/pages/AppList.vue";
 import AppDetails from "@/components/pages/AppDetails.vue";
 import Playground from "@/components/pages/Playground.vue";
+import DockerControl from "@/components/pages/DockerControl.vue";
 
 Vue.use(Router);
 
@@ -33,6 +34,11 @@ const routes = [
     path: "/playground",
     name: "Playground",
     component: Playground,
+  },
+  {
+    path: "/docker",
+    name: "Docker",
+    component: DockerControl,
   },
 ];
 
