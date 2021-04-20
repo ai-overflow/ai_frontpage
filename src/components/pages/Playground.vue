@@ -45,34 +45,13 @@
     </v-card>
     <v-card class="ma-4 pa-4" v-if="description !== ''">
       <h2>Verbindungen</h2>
-      <v-expansion-panels>
-        <v-expansion-panel
-          v-for="[name, item] of Object.entries(getYamlData.connection)"
-          :key="name"
-        >
-          <v-expansion-panel-header disable-icon-rotate>
-            {{ name }}
-            <template v-slot:actions v-if="getYamlData.entryPoint === name">
-              <v-icon color="primary"> mdi-star </v-icon>
-            </template>
-          </v-expansion-panel-header>
-          <v-expansion-panel-content>
-            {{ item }}
-            <v-card color="primary">
-              <v-card-title class="text-center justify-center white--text">
-                {{ item.method }}
-                {{ item.protocol.toLowerCase() }}://localhost:{{ item.port
-                }}{{ item.path }}
-              </v-card-title>
-              <v-tabs background-color="primary" center-active dark centered>
-                <v-tab>Params</v-tab>
-                <v-tab>Headers</v-tab>
-                <v-tab>Body</v-tab>
-              </v-tabs>
-            </v-card>
-          </v-expansion-panel-content>
-        </v-expansion-panel>
-      </v-expansion-panels>
+      <v-container v-if="getYamlData && getYamlData.connection">
+        <ConnectionInfo
+          :connections="getYamlData.connection"
+          :entry-point="getYamlData.entryPoint"
+          :input-vars="inputData"
+        />
+      </v-container>
     </v-card>
     <v-card class="ma-4 pa-4" v-if="description !== ''">
       <h2>Eingabe</h2>
@@ -90,6 +69,7 @@
 <script>
 import yaml from "js-yaml";
 import DisplayInput from "@/components/DisplayInput";
+import ConnectionInfo from "@/components/ConnectionInfo";
 import { codemirror } from "vue-codemirror";
 import validationSchema from "@/assets/dlschema.json";
 import { Validator } from "jsonschema";
@@ -117,7 +97,7 @@ export default {
       return yaml.load(this.description);
     },
   },
-  components: { DisplayInput, codemirror },
+  components: { DisplayInput, ConnectionInfo, codemirror },
   methods: {
     getErrorFromSchema(schema) {
       if (schema.oneOf) {
