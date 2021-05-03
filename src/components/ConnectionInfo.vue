@@ -32,7 +32,7 @@
           </v-tabs>
           <v-tabs-items v-model="tabs[item]">
             <v-tab-item v-for="tab in [item.params, item.headers]" :key="JSON.stringify(tab)">
-              <v-simple-table>
+              <v-simple-table v-if="tab">
                 <template v-slot:default>
                   <thead>
                     <tr>
@@ -49,7 +49,7 @@
                 </template>
               </v-simple-table>
             </v-tab-item>
-            <v-tab-item><body-table :value="item.body" :input-vars="inputVars" /></v-tab-item>
+            <v-tab-item><body-table v-if="item.body" :value="item.body" :input-vars="inputVars" /></v-tab-item>
           </v-tabs-items>
         </v-card>
       </v-expansion-panel-content>

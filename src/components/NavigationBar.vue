@@ -32,9 +32,9 @@ export default {
       items: [
         { title: "Home", icon: "mdi-view-dashboard", link: "/" },
         {
-          title: "Anwendung Erstellen",
-          icon: "mdi-book-plus-multiple",
-          link: "/create",
+          title: "Seitenübersicht",
+          icon: "mdi-book-open-page-variant",
+          link: "/pages",
         },
         {
           title: "Projekte Auflisten",

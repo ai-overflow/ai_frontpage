@@ -1,11 +1,12 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import CreateApp from "@/components/pages/CreateApp.vue";
-import Home from "@/components/pages/Home.vue";
-import AppList from "@/components/pages/AppList.vue";
-import AppDetails from "@/components/pages/AppDetails.vue";
-import Playground from "@/components/pages/Playground.vue";
-import DockerControl from "@/components/pages/DockerControl.vue";
+import CreateApp from "@pages/CreateApp.vue";
+import Home from "@pages/Home.vue";
+import AppList from "@pages/AppList.vue";
+import AppDetails from "@pages/AppDetails.vue";
+import Playground from "@pages/Playground.vue";
+import DockerControl from "@pages/DockerControl.vue";
+import Pages from "@pages/Pages.vue";
 
 Vue.use(Router);
 
@@ -40,6 +41,11 @@ const routes = [
     name: "Docker",
     component: DockerControl,
   },
+  {
+    path: "/pages",
+    name: "Pages",
+    component: Pages
+  }
 ];
 
 const router = new Router({

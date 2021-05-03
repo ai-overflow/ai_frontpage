@@ -1,7 +1,7 @@
 <template>
   <v-expansion-panels v-model="panel" multiple>
     <v-expansion-panel>
-      <v-expansion-panel-header>Projekt erstellen</v-expansion-panel-header>
+      <v-expansion-panel-header><h2>Projekt erstellen</h2></v-expansion-panel-header>
       <v-expansion-panel-content>
         <v-container class="form-container">
           <v-row>
@@ -49,6 +49,11 @@
               <download-info :info="infoText" />
             </v-col>
           </v-row>
+          <v-row v-if="projectId">
+            <v-col>
+              <v-btn :to="`/project/${projectId}`" color="primary" dark>Weiter zum Projekt</v-btn>
+            </v-col>
+          </v-row>
         </v-container>
       </v-expansion-panel-content>
     </v-expansion-panel>
@@ -67,6 +72,7 @@ export default {
       error: "",
       success: false,
       infoText: undefined,
+      projectId: undefined,
       panel: [0]
     };
   },
@@ -88,6 +94,7 @@ export default {
           } else {
             this.success = true;
             this.infoText = e.abstract;
+            this.projectId = e.projectID;
           }
         })
         .catch((e) => {

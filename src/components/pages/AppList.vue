@@ -2,6 +2,13 @@
   <v-card class="ma-4 pa-4">
     <h2>Projekte</h2>
     <v-container>
+      <v-btn color="primary" to="/create" small>
+        <v-icon dark left> mdi-book-plus-multiple </v-icon>
+        Hinzufügen
+      </v-btn>
+    </v-container>
+    <v-container>
+      <span v-if="items.length === 0">Keine Projekte vorhanden</span>
       <v-list two-line>
         <v-list-item-group
           v-model="selected"
@@ -58,6 +65,7 @@ export default {
     //TODO: This will be called multiple times, replace with somthing better
     console.log("Test");
     GitService.listProjects().then((e) => {
+      console.log(e);
       this.items = e;
     });
   },

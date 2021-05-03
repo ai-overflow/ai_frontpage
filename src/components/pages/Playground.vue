@@ -87,7 +87,7 @@ export default {
   },
   watch: {
     description: function () {
-      var v = new Validator();
+      let v = new Validator();
       this.validationResult = v.validate(this.getYamlData, validationSchema);
       console.log(this.validationResult);
     },
