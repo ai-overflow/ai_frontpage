@@ -9,6 +9,7 @@ module.exports = {
       alias: {
         '@pages': path.resolve(__dirname, 'src/components/pages'),
         '@shared': path.resolve(__dirname, 'src/shared'),
+        '@service': path.resolve(__dirname, 'src/services'),
       },
     },
   }
