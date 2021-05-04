@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import InputGenerator from "@shared/input/InputGenerator";
+import InputGenerator from "@shared/components/input/InputGenerator";
 
 export default {
   props: {
