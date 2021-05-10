@@ -10,48 +10,30 @@
         <v-list-item-icon>
           <v-icon>mdi-atom</v-icon>
         </v-list-item-icon>
-        <v-list-item-title>Administration</v-list-item-title>
+        <v-list-item-title>Playground</v-list-item-title>
       </v-list-item>
     </v-list>
     <v-divider></v-divider>
     <v-list nav dense>
-      <v-list-item v-for="item in items" :key="item.title" link :to="item.link">
-        <v-list-item-icon>
-          <v-icon>{{ item.icon }}</v-icon>
-        </v-list-item-icon>
-        <v-list-item-title>{{ item.title }}</v-list-item-title>
-      </v-list-item>
+      <div v-for="item in routes" :key="item.name">
+        <v-list-item link :to="item.path" v-if="item.meta.showInNav">
+          <v-list-item-icon>
+            <v-icon>{{ item.meta.icon }}</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>{{ item.name }}</v-list-item-title>
+        </v-list-item>
+      </div>
     </v-list>
   </v-navigation-drawer>
 </template>
 
 <script>
+import { routes } from "@/router.js";
+
 export default {
   data() {
     return {
-      items: [
-        { title: "Home", icon: "mdi-view-dashboard", link: "/" },
-        {
-          title: "Seitenübersicht",
-          icon: "mdi-book-open-page-variant",
-          link: "/pages",
-        },
-        {
-          title: "Projekte Auflisten",
-          icon: "mdi-format-list-bulleted",
-          link: "/projects",
-        },
-        {
-          title: "Playground",
-          icon: "mdi-controller-classic",
-          link: "/playground",
-        },
-        {
-          title: "Container Verwaltung",
-          icon: "mdi-docker",
-          link: "/docker",
-        },
-      ],
+      routes: routes,
     };
   },
 };

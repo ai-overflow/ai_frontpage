@@ -7,50 +7,80 @@ import AppDetails from "@pages/AppDetails.vue";
 import Playground from "@pages/Playground.vue";
 import DockerControl from "@pages/DockerControl.vue";
 import Pages from "@pages/Pages.vue";
+import config from "../vue.config";
 
 Vue.use(Router);
 
-const routes = [
+export const routes = [
   {
     path: "/",
     name: "Home",
     component: Home,
+    meta: {
+      icon: "mdi-view-dashboard",
+      showInNav: true
+    }
   },
   {
     path: "/create",
     name: "Create",
     component: CreateApp,
+    meta: {
+      icon: "mdi-book-open-page-variant",
+      showInNav: false
+    }
   },
   {
     path: "/projects",
     name: "List",
     component: AppList,
+    meta: {
+      icon: "mdi-book-open-page-variant",
+      showInNav: false
+    }
   },
   {
     path: "/project/:id",
     name: "Details",
     component: AppDetails,
+    meta: {
+      icon: "mdi-book-open-page-variant",
+      showInNav: false
+    }
   },
   {
-    path: "/playground",
-    name: "Playground",
+    path: "/validate",
+    name: "Validierung",
     component: Playground,
+    meta: {
+      icon: "mdi-controller-classic",
+      showInNav: true
+    }
   },
   {
     path: "/docker",
     name: "Docker",
     component: DockerControl,
+    meta: {
+      icon: "mdi-book-open-page-variant",
+      showInNav: false
+    }
   },
   {
     path: "/pages",
     name: "Pages",
-    component: Pages
+    component: Pages,
+    meta: {
+      icon: "mdi-book-open-page-variant",
+      showInNav: false
+    }
   }
 ];
 
 const router = new Router({
   mode: 'history',
   routes: routes,
+  base: config.publicPath
 });
 
 export default router;

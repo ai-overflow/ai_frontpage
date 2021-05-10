@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-app-bar color="primary" dark app>
-      <v-toolbar-title>AI Administration</v-toolbar-title>
+      <v-toolbar-title>AI Playground</v-toolbar-title>
     </v-app-bar>
     <navigation-bar />
     <v-main>
