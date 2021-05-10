@@ -72,8 +72,10 @@
             /></v-tab-item>
           </v-tabs-items>
         </v-card>
-        <v-container class="ma-2 text-center">
-          Response: {{ serverReply }}
+        <v-container class="ma-2">
+          <pre>
+            {{ serverReply }}
+          </pre>
         </v-container>
       </v-expansion-panel-content>
     </v-expansion-panel>
@@ -113,9 +115,13 @@ export default {
       });
     },
     sendRequest(input) {
-      doRequest(this.host, input, this.inputVars).then(e => {
-        this.serverReply = e;
-      });
+      doRequest(this.host, input, this.inputVars)
+        .then((e) => {
+          this.serverReply = e.data;
+        })
+        .catch((e) => {
+          console.log("Error: ", e);
+        });
     },
   },
 };
