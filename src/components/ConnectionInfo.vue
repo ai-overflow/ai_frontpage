@@ -72,6 +72,9 @@
             /></v-tab-item>
           </v-tabs-items>
         </v-card>
+        <v-container class="ma-2 text-center">
+          Response: {{ serverReply }}
+        </v-container>
       </v-expansion-panel-content>
     </v-expansion-panel>
   </v-expansion-panels>
@@ -93,6 +96,7 @@ export default {
     return {
       tabs: [],
       host: "localhost",
+      serverReply: {},
     };
   },
   components: { VarText, BodyTable, VTextField },
@@ -109,7 +113,9 @@ export default {
       });
     },
     sendRequest(input) {
-      doRequest(this.host, input, this.inputVars);
+      doRequest(this.host, input, this.inputVars).then(e => {
+        this.serverReply = e;
+      });
     },
   },
 };
