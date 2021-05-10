@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-expansion-panels multiple>
+    <v-expansion-panels multiple v-model="panel">
       <v-expansion-panel
         v-for="[name, item] of Object.entries(inputs)"
         :key="name"
@@ -9,11 +9,12 @@
           {{ name }}
         </v-expansion-panel-header>
         <v-expansion-panel-content>
-          <h3>Vorschau</h3>
           <InputGenerator :type-info="item" v-model="inputData[name]" />
-          <v-spacer />
-          <h3>JSON</h3>
-          <pre>{{ item }}</pre>
+          <!--
+            <v-spacer />
+            <h3>JSON</h3>
+            <pre>{{ item }}</pre>
+          -->
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -34,6 +35,7 @@ export default {
   components: { InputGenerator },
   data() {
     return {
+      panel: Array.from(Array(Object.entries(this.inputs).length).keys()),
       inputData: {},
     };
   },

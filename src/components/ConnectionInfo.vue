@@ -16,8 +16,13 @@
             <v-chip class="ma-2" label color="green">
               <v-icon left>mdi-web</v-icon>{{ item.method }}</v-chip
             >
-            {{ item.protocol.toLowerCase() }}://localhost:{{ item.port }}
+            {{
+              item.protocol ? item.protocol.toLowerCase() : "http"
+            }}://localhost:{{ item.port }}
             <var-text :value="item.path" :input-vars="inputVars" />
+            <div class="ml-6">
+              <v-btn small color="indigo lighten-1" dark>Go <v-icon right dark> mdi-send </v-icon></v-btn>
+            </div>
           </v-card-title>
           <v-tabs
             background-color="primary"
@@ -31,8 +36,11 @@
             <v-tab>Body</v-tab>
           </v-tabs>
           <v-tabs-items v-model="tabs[item]">
-            <v-tab-item v-for="tab in [item.params, item.headers]" :key="JSON.stringify(tab)">
-              <v-simple-table v-if="tab">
+            <v-tab-item
+              v-for="tab in [item.params, item.headers]"
+              :key="JSON.stringify(tab)"
+            >
+              <v-simple-table v-if="!!tab">
                 <template v-slot:default>
                   <thead>
                     <tr>
@@ -48,8 +56,14 @@
                   </tbody>
                 </template>
               </v-simple-table>
+              <div v-else class="ma-2 text-center">Keine Angabe</div>
             </v-tab-item>
-            <v-tab-item><body-table v-if="item.body" :value="item.body" :input-vars="inputVars" /></v-tab-item>
+            <v-tab-item
+              ><body-table
+                v-if="item.body"
+                :value="item.body"
+                :input-vars="inputVars"
+            /></v-tab-item>
           </v-tabs-items>
         </v-card>
       </v-expansion-panel-content>

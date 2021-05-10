@@ -43,26 +43,32 @@
         </v-container>
       </v-container>
     </v-card>
-    <v-card class="ma-4 pa-4" v-if="description !== ''">
-      <h2>Verbindungen</h2>
-      <v-container v-if="getYamlData && getYamlData.connection">
-        <ConnectionInfo
-          :connections="getYamlData.connection"
-          :entry-point="getYamlData.entryPoint"
-          :input-vars="inputData"
-        />
-      </v-container>
-    </v-card>
-    <v-card class="ma-4 pa-4" v-if="description !== ''">
-      <h2>Eingabe</h2>
-      <v-container v-if="getYamlData && getYamlData.input">
-        <DisplayInput :inputs="getYamlData.input" v-model="inputData" />
-      </v-container>
-    </v-card>
-    <v-card class="ma-4 pa-4" v-if="description !== ''">
-      <h2>JSON-Repräsentation</h2>
-      <pre>{{ inputData }}</pre>
-    </v-card>
+    <v-container v-if="validationResult && validationResult.valid">
+      <v-card class="ma-4 pa-4" v-if="description !== ''">
+        <h2>Verbindungen</h2>
+        <v-container v-if="getYamlData && getYamlData.connection">
+          <ConnectionInfo
+            :connections="getYamlData.connection"
+            :entry-point="getYamlData.entryPoint"
+            :input-vars="inputData"
+          />
+        </v-container>
+      </v-card>
+      <v-card class="ma-4 pa-4" v-if="description !== ''">
+        <h2>Eingabe</h2>
+        <v-container v-if="getYamlData && getYamlData.input">
+          <DisplayInput :inputs="getYamlData.input" v-model="inputData" />
+        </v-container>
+      </v-card>
+      <v-card class="ma-4 pa-4" v-if="description !== ''">
+        <h2>JSON-Repräsentation</h2>
+        <pre>{{ inputData }}</pre>
+      </v-card>
+      <v-card class="ma-4 pa-4" v-if="description !== ''">
+        <h2>Ausgabe</h2>
+        <pre>TODO</pre>
+      </v-card>
+    </v-container>
   </div>
 </template>
 
