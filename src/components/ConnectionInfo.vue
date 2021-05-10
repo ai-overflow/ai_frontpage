@@ -16,12 +16,18 @@
             <v-chip class="ma-2" label color="green">
               <v-icon left>mdi-web</v-icon>{{ item.method }}</v-chip
             >
-            {{
-              item.protocol ? item.protocol.toLowerCase() : "http"
-            }}://localhost:{{ item.port }}
+            {{ item.protocol ? item.protocol.toLowerCase() : "http" }}://
+            <v-text-field v-model="host" dark filled dense class="host-input" />
+            : {{ item.port }}
             <var-text :value="item.path" :input-vars="inputVars" />
             <div class="ml-6">
-              <v-btn small color="indigo lighten-1" dark>Go <v-icon right dark> mdi-send </v-icon></v-btn>
+              <v-btn
+                small
+                color="indigo lighten-1"
+                dark
+                @click="() => sendRequest(item)"
+                >Go <v-icon right dark> mdi-send </v-icon></v-btn
+              >
             </div>
           </v-card-title>
           <v-tabs
@@ -74,6 +80,8 @@
 <script>
 import VarText from "@/components/helper/VarText";
 import BodyTable from "@/components/helper/BodyTable";
+import doRequest from "@shared/helper/connection";
+import { VTextField } from "vuetify/lib";
 
 export default {
   props: {
@@ -84,9 +92,10 @@ export default {
   data() {
     return {
       tabs: [],
+      host: "localhost",
     };
   },
-  components: { VarText, BodyTable },
+  components: { VarText, BodyTable, VTextField },
   methods: {
     parseParams(input) {
       let re = /{{(.*?)}}/g;
@@ -99,9 +108,16 @@ export default {
         }
       });
     },
+    sendRequest(input) {
+      doRequest(this.host, input, this.inputVars);
+    },
   },
 };
 </script>
 
-<style>
+<style scoped>
+.host-input {
+  max-width: 150px;
+  text-align: center;
+}
 </style>
