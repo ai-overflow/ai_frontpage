@@ -1,6 +1,7 @@
 const path = require('path');
 
 module.exports = {
+  publicPath: '/ai_page_administration/',
   transpileDependencies: [
     'vuetify'
   ],
@@ -13,4 +14,4 @@ module.exports = {
       },
     },
   }
-}
+};
