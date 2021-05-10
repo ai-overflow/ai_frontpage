@@ -1,5 +1,7 @@
 name: Build Vue
-on: [push]
+on:
+  label:
+    types: [created]
 jobs:
   build_vue:
     runs-on: ubuntu-latest
@@ -15,4 +17,3 @@ jobs:
         username: 'ai-overflow'
         reponame: 'ai_page_administration'
         token: ${{ secrets.GITHUB_TOKEN }} # Leave this line unchanged
-        submodules: recursive
