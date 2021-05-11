@@ -30,7 +30,7 @@
             description.length == 0
           "
         >
-          Sie müssen eine valide Eingabe einfügen um fortfahren zu können.
+          Sie müssen eine valide Eingabe einfügen um fortfahren zu können.<br /> Bitte besuchen Sie die <a href="https://ai-overflow.github.io/yaml-documentation" target="_blank">Dokumentation</a> für weitere Informationen.
         </v-alert>
         <v-card class="ma-4 pa-4">
           <h2>YAML / JSON</h2>
