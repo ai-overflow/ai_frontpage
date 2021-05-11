@@ -18,6 +18,20 @@
 
     <v-stepper-items>
       <v-stepper-content step="1">
+        <v-alert
+          text
+          dense
+          color="indigo"
+          icon="mdi-information-outline"
+          border="left"
+          v-if="
+            !validationResult ||
+            !validationResult.valid ||
+            description.length == 0
+          "
+        >
+          Sie müssen eine valide Eingabe einfügen um fortfahren zu können.
+        </v-alert>
         <v-card class="ma-4 pa-4">
           <h2>YAML / JSON</h2>
           <h2 class="subtitle-1">
@@ -73,12 +87,28 @@
         <v-btn
           color="primary"
           @click="currentStep = 2"
-          :disabled="!validationResult || !validationResult.valid || description.length == 0"
+          :disabled="
+            !validationResult ||
+            !validationResult.valid ||
+            description.length == 0
+          "
         >
           Weiter
         </v-btn>
       </v-stepper-content>
       <v-stepper-content step="2">
+        <v-alert
+          text
+          dense
+          color="indigo"
+          icon="mdi-information-outline"
+          border="left"
+          v-if="!connectionData"
+        >
+          Sie müssen die Verbindung
+          <code>{{ getYamlData ? getYamlData.entryPoint : "ERROR" }}</code>
+          abschicken um fortfahren zu können.
+        </v-alert>
         <v-container v-if="validationResult && validationResult.valid">
           <v-card class="ma-4 pa-4" v-if="description !== ''">
             <h2>Eingabe</h2>
@@ -103,9 +133,24 @@
           </v-card>
         </v-container>
         <v-btn @click="currentStep = 1"> Zurück </v-btn>
-        <v-btn color="primary" @click="currentStep = 3" :disabled="!connectionData"> Weiter </v-btn>
+        <v-btn
+          color="primary"
+          @click="currentStep = 3"
+          :disabled="!connectionData"
+        >
+          Weiter
+        </v-btn>
       </v-stepper-content>
       <v-stepper-content step="3">
+        <v-alert
+          text
+          dense
+          color="red"
+          icon="mdi-emoticon-confused-outline"
+          border="left"
+        >
+          Sie haben das Ende des Playgrounds erreicht. Der Schritt "Ausgabe" ist aktuell in Bearbeitung. Bitte warten Sie einige Tage...
+        </v-alert>
         <v-container>
           <v-card class="ma-4 pa-4" v-if="description !== ''">
             <h2>Ausgabe</h2>
@@ -113,7 +158,13 @@
           </v-card>
         </v-container>
         <v-btn @click="currentStep = 2"> Zurück </v-btn>
-        <v-btn color="primary" @click="currentStep = 1" :disabled="!connectionData"> Fertig </v-btn>
+        <v-btn
+          color="primary"
+          @click="currentStep = 1"
+          :disabled="!connectionData"
+        >
+          Fertig
+        </v-btn>
       </v-stepper-content>
     </v-stepper-items>
   </v-stepper>
