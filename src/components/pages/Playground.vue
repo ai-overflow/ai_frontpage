@@ -2,9 +2,9 @@
   <div>
     <v-card class="ma-4 pa-4">
       <h2>YAML / JSON</h2>
-      <codemirror v-model="description" />
+      <codemirror v-model="description" :options="cmOptions" ref="myCm" class="cm"/>
     </v-card>
-    <v-card class="ma-4 pa-4" v-if="description !== ''">
+    <v-card class="ma-4 pa-4" v-if="description !== '' && validationResult">
       <h2>Validierung</h2>
       <v-container>
         <v-alert
@@ -51,6 +51,7 @@
             :connections="getYamlData.connection"
             :entry-point="getYamlData.entryPoint"
             :input-vars="inputData"
+            v-model="connectionData"
           />
         </v-container>
       </v-card>
@@ -77,8 +78,11 @@ import yaml from "js-yaml";
 import DisplayInput from "@/components/DisplayInput";
 import ConnectionInfo from "@/components/ConnectionInfo";
 import { codemirror } from "vue-codemirror";
+import CodeMirror from "codemirror";
 import validationSchema from "@/assets/dlschema.json";
 import { Validator } from "jsonschema";
+import "codemirror/addon/lint/lint.js";
+import "codemirror/addon/lint/lint.css";
 
 // jsondiffpatch
 // js-yaml
@@ -88,20 +92,66 @@ export default {
     return {
       description: "",
       validationResult: undefined,
+      validationError: undefined,
       inputData: {},
+      connectionData: {},
+      cmOptions: {
+        lint: true,
+        gutters: ["CodeMirror-lint-markers"],
+        viewportMargin: Infinity
+      },
     };
   },
   watch: {
     description: function () {
       let v = new Validator();
-      this.validationResult = v.validate(this.getYamlData, validationSchema);
-      console.log(this.validationResult);
+      try {
+        this.validationResult = v.validate(this.getYamlData, validationSchema);
+        this.validationError = undefined;
+        console.log(this.validationResult);
+      } catch (e) {
+        this.validationResult = undefined;
+        this.validationError = e;
+      }
     },
   },
   computed: {
     getYamlData() {
       return yaml.load(this.description);
     },
+    codemirror() {
+      if (this.$refs.myCm) {
+        return this.$refs.myCm.codemirror;
+      }
+      return null;
+    },
+  },
+  mounted() {
+    CodeMirror.registerHelper("lint", "yaml", () => {
+      if (this.validationError) {
+      console.log("set error:", this.validationError);
+        const cm = this.codemirror;
+        if (!cm) return [];
+
+        let start = cm.posFromIndex(this.validationError.mark.position);
+        let end = Object.assign({}, start);
+
+        end.ch = cm.getTokenAt(start).end;
+        start.ch -= 1;
+
+        const result = [
+          {
+            from: start,
+            to: end,
+            message: this.validationError.message,
+            severity: "error",
+          },
+        ];
+        console.log(result);
+        return result;
+      }
+      return [];
+    });
   },
   components: { DisplayInput, ConnectionInfo, codemirror },
   methods: {
@@ -115,4 +165,7 @@ export default {
 </script>
 
 <style>
+.cm .CodeMirror {
+  height: auto;
+}
 </style>

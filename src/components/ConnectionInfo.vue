@@ -93,6 +93,7 @@ export default {
     connections: Object,
     entryPoint: String,
     inputVars: Object,
+    value: Object
   },
   data() {
     return {
@@ -122,6 +123,11 @@ export default {
         .catch((e) => {
           console.log("Error: ", e);
         });
+    },
+  },
+  watch: {
+    serverReply: function () {
+      this.$emit("input", this.serverReply);
     },
   },
 };
