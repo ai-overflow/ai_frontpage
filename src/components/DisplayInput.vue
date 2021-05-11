@@ -6,11 +6,6 @@
       >
           <h4>{{ item.label || name }}</h4>
           <InputGenerator :type-info="item" v-model="inputData[name]" />
-          <!--
-            <v-spacer />
-            <h3>JSON</h3>
-            <pre>{{ item }}</pre>
-          -->
         </div>
   </div>
 </template>
@@ -24,7 +19,7 @@ export default {
     value: Object,
   },
   created: () => {
-    console.log(InputGenerator);
+    //console.log(InputGenerator);
   },
   components: { InputGenerator },
   data() {
