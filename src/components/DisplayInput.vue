@@ -1,23 +1,17 @@
 <template>
   <div>
-    <v-expansion-panels multiple v-model="panel">
-      <v-expansion-panel
+      <div
         v-for="[name, item] of Object.entries(inputs)"
         :key="name"
       >
-        <v-expansion-panel-header>
-          {{ name }}
-        </v-expansion-panel-header>
-        <v-expansion-panel-content>
+          <h4>{{ item.label || name }}</h4>
           <InputGenerator :type-info="item" v-model="inputData[name]" />
           <!--
             <v-spacer />
             <h3>JSON</h3>
             <pre>{{ item }}</pre>
           -->
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-    </v-expansion-panels>
+        </div>
   </div>
 </template>
 
