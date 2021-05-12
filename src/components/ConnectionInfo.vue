@@ -1,17 +1,17 @@
 <template>
-  <v-expansion-panels>
-    <v-expansion-panel
-      v-for="[name, item] of Object.entries(connections)"
-      :key="name"
-    >
-      <v-expansion-panel-header disable-icon-rotate>
+  <div>
+    <v-tabs fixed-tabs v-model="tabs" center-active background-color="secondary" dark>
+      <v-tab v-for="[name] of Object.entries(connections)" :key="name">
         {{ name }}
-        <template v-slot:actions v-if="entryPoint === name">
-          <v-icon color="primary"> mdi-star </v-icon>
-        </template>
-      </v-expansion-panel-header>
-      <v-expansion-panel-content>
-        <v-card color="primary">
+        <v-icon v-if="entryPoint === name">mdi-star</v-icon></v-tab
+      >
+    </v-tabs>
+    <v-tabs-items v-model="tabs">
+      <v-tab-item
+        v-for="[name, item] of Object.entries(connections)"
+        :key="name"
+      >
+        <v-card color="primary" outlined class="rounded-0">
           <v-card-title class="text-center justify-center white--text">
             <v-chip class="ma-2" label color="green">
               <v-icon left>mdi-web</v-icon>{{ item.method }}</v-chip
@@ -35,13 +35,13 @@
             center-active
             dark
             centered
-            v-model="tabs[item]"
+            v-model="paramTabs[item]"
           >
             <v-tab>Params</v-tab>
             <v-tab>Headers</v-tab>
             <v-tab>Body</v-tab>
           </v-tabs>
-          <v-tabs-items v-model="tabs[item]">
+          <v-tabs-items v-model="paramTabs[item]">
             <v-tab-item
               v-for="tab in [item.params, item.headers]"
               :key="JSON.stringify(tab)"
@@ -57,7 +57,9 @@
                   <tbody>
                     <tr v-for="[k, v] of Object.entries(tab)" :key="k">
                       <td>{{ k }}</td>
-                      <td><var-text :value="v" :input-vars="inputVars" /></td>
+                      <td>
+                        <var-text :value="v" :input-vars="inputVars" />
+                      </td>
                     </tr>
                   </tbody>
                 </template>
@@ -77,32 +79,36 @@
             {{ serverReply }}
           </pre>
         </v-container>
-      </v-expansion-panel-content>
-    </v-expansion-panel>
-  </v-expansion-panels>
+      </v-tab-item>
+    </v-tabs-items>
+  </div>
 </template>
 
 <script>
-import VarText from "@/components/helper/VarText";
+
 import BodyTable from "@/components/helper/BodyTable";
-import doRequest from "@shared/helper/connection";
 import { VTextField } from "vuetify/lib";
+import VarText from "@/components/helper/VarText";
+import doRequest from "@shared/helper/connection";
 
 export default {
   props: {
     connections: Object,
     entryPoint: String,
     inputVars: Object,
-    value: Object
+    value: Object,
   },
   data() {
     return {
-      tabs: [],
+      tabs: null,
+      paramTabs: [],
       host: "localhost",
       serverReply: {},
     };
   },
-  components: { VarText, BodyTable, VTextField },
+  components: {
+    VarText, BodyTable, VTextField
+  },
   methods: {
     parseParams(input) {
       let re = /{{(.*?)}}/g;

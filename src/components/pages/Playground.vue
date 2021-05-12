@@ -32,7 +32,7 @@
 
       <v-stepper-items>
         <v-stepper-content step="1">
-          <v-card class="ma-4 pa-4">
+          <v-card class="ma-4 pa-4" elevation="0">
             <h2>YAML / JSON</h2>
             <h2 class="subtitle-1">
               Bitte fügen Sie ihre <code>config.dl.yaml</code> oder
@@ -48,16 +48,16 @@
           <v-card
             class="ma-4 pa-4"
             v-if="description !== '' && validationResult"
+            elevation="0"
           >
             <h2>Validierung</h2>
             <v-container>
               <v-alert
-                border="left"
-                :color="validationResult.valid ? 'primary' : 'red'"
+                :color="validationResult.valid ? 'primary lighten-1' : 'red'"
                 v-if="validationResult"
                 light
-                colored-border
-                elevation="2"
+                elevation="0"
+                dense
                 :type="validationResult.valid ? 'info' : 'error'"
               >
                 {{ validationResult.valid ? "Erfolgreich" : "Fehler" }}
@@ -103,19 +103,19 @@
         </v-stepper-content>
         <v-stepper-content step="2">
           <v-container v-if="validationResult && validationResult.valid">
-            <v-card class="ma-4 pa-4" v-if="description !== ''">
+            <v-card class="ma-4 pa-4" v-if="description !== ''" elevation="0">
               <h2>Eingabe</h2>
               <v-container v-if="getYamlData && getYamlData.input">
                 <DisplayInput :inputs="getYamlData.input" v-model="inputData" />
               </v-container>
             </v-card>
-            <v-card class="ma-4 pa-4" v-if="description !== ''">
+            <v-card class="ma-4 pa-4" v-if="description !== ''" elevation="0">
               <h2>JSON-Repräsentation</h2>
               <pre>{{ inputData }}</pre>
             </v-card>
-            <v-card class="ma-4 pa-4" v-if="description !== ''">
+            <v-card class="ma-4 pa-4" v-if="description !== ''" elevation="0">
               <h2>Verbindungen</h2>
-              <v-container v-if="getYamlData && getYamlData.connection">
+              <v-container v-if="getYamlData && getYamlData.connection" class="pa-0">
                 <ConnectionInfo
                   :connections="getYamlData.connection"
                   :entry-point="getYamlData.entryPoint"
