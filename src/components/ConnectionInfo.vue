@@ -140,7 +140,7 @@ export default {
         })
         .catch((e) => {
           console.log("Error: ", e);
-          this.$set(this.serverReply, name, e.message);
+          this.$set(this.serverReply, name, e.message + "\nSee Browser Developement Console (Chrome: F12) for more information.");
         });
     },
   },
