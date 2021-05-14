@@ -189,7 +189,7 @@ export default {
     return {
       currentStep: 1,
       maxStep: 1,
-      description: "# insert your description here",
+      description: "# insert your description here\n\n",
       validationResult: undefined,
       validationError: undefined,
       inputData: {},

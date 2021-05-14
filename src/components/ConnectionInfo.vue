@@ -1,6 +1,12 @@
 <template>
   <div>
-    <v-tabs fixed-tabs v-model="tabs" center-active background-color="secondary" dark>
+    <v-tabs
+      fixed-tabs
+      v-model="tabs"
+      center-active
+      background-color="secondary"
+      dark
+    >
       <v-tab v-for="[name] of Object.entries(connections)" :key="name">
         {{ name }}
         <v-icon v-if="entryPoint === name">mdi-star</v-icon></v-tab
@@ -20,15 +26,6 @@
             <v-text-field v-model="host" dark filled dense class="host-input" />
             : {{ item.port }}
             <var-text :value="item.path" :input-vars="inputVars" />
-            <div class="ml-6">
-              <v-btn
-                small
-                color="indigo lighten-1"
-                dark
-                @click="() => sendRequest(item)"
-                >Go <v-icon right dark> mdi-send </v-icon></v-btn
-              >
-            </div>
           </v-card-title>
           <v-tabs
             background-color="primary"
@@ -41,7 +38,7 @@
             <v-tab>Headers</v-tab>
             <v-tab>Body</v-tab>
           </v-tabs>
-          <v-tabs-items v-model="paramTabs[item]">
+          <v-tabs-items v-model="paramTabs[item]" class="pt-5 pb-5">
             <v-tab-item
               v-for="tab in [item.params, item.headers]"
               :key="JSON.stringify(tab)"
@@ -75,17 +72,30 @@
           </v-tabs-items>
         </v-card>
         <v-container class="ma-2">
-          <pre>
-            {{ serverReply }}
-          </pre>
+          <h3 class="text-center">
+            <v-btn color="primary" dark @click="() => sendRequest(item, name)"
+              >Abschicken
+              <v-icon right dark> mdi-send </v-icon>
+            </v-btn>
+          </h3>
         </v-container>
+        <div v-if="serverReply[name]">
+          <v-container class="output-bar">
+            <h3 class="text-center">Ausgabe</h3>
+          </v-container>
+          <v-container class="preview-container">
+            <pre>
+            {{ serverReply[name] }}
+          </pre
+            >
+          </v-container>
+        </div>
       </v-tab-item>
     </v-tabs-items>
   </div>
 </template>
 
 <script>
-
 import BodyTable from "@/components/helper/BodyTable";
 import { VTextField } from "vuetify/lib";
 import VarText from "@/components/helper/VarText";
@@ -96,18 +106,20 @@ export default {
     connections: Object,
     entryPoint: String,
     inputVars: Object,
-    value: Object,
+    value: Array,
   },
   data() {
     return {
       tabs: null,
       paramTabs: [],
       host: "localhost",
-      serverReply: {},
+      serverReply: [],
     };
   },
   components: {
-    VarText, BodyTable, VTextField
+    VarText,
+    BodyTable,
+    VTextField,
   },
   methods: {
     parseParams(input) {
@@ -121,13 +133,14 @@ export default {
         }
       });
     },
-    sendRequest(input) {
+    sendRequest(input, name) {
       doRequest(this.host, input, this.inputVars)
         .then((e) => {
-          this.serverReply = e.data;
+          this.$set(this.serverReply, name, e.data);
         })
         .catch((e) => {
           console.log("Error: ", e);
+          this.$set(this.serverReply, name, e.message);
         });
     },
   },
@@ -143,5 +156,16 @@ export default {
 .host-input {
   max-width: 150px;
   text-align: center;
+}
+.preview-container {
+  max-height: 400px;
+  overflow-y: auto;
+  /*width: calc(100% - 10px);*/
+  border: thin solid var(--v-secondary-base);
+  margin: 0px 0;
+}
+.output-bar {
+  background: var(--v-secondary-base);
+  color: #fff;
 }
 </style>

@@ -10,6 +10,9 @@ export default new Vuetify({
             light: {
                 primary: colors.indigo.darken3,
             }
+        },
+        options: {
+            customProperties: true
         }
     }
 });
