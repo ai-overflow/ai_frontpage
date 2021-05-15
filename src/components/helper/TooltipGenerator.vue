@@ -42,7 +42,13 @@ export default {
       );
     },
     second: function () {
-      return !this.connectionData && this.currentStep == 2;
+      return (
+        (!this.yamlData ||
+          !this.yamlData.entryPoint ||
+          !this.connectionData[this.yamlData.entryPoint] ||
+          !this.connectionData[this.yamlData.entryPoint].success) &&
+        this.currentStep == 2
+      );
     },
     all: function () {
       return this.first || this.second;

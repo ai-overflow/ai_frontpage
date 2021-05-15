@@ -115,7 +115,10 @@
             </v-card>
             <v-card class="ma-4 pa-4" v-if="description !== ''" elevation="0">
               <h2>Verbindungen</h2>
-              <v-container v-if="getYamlData && getYamlData.connection" class="pa-0">
+              <v-container
+                v-if="getYamlData && getYamlData.connection"
+                class="pa-0"
+              >
                 <ConnectionInfo
                   :connections="getYamlData.connection"
                   :entry-point="getYamlData.entryPoint"
@@ -130,7 +133,12 @@
             <v-btn
               color="primary"
               @click="currentStep = 3"
-              :disabled="!connectionData"
+              :disabled="
+                !getYamlData ||
+                !getYamlData.entryPoint ||
+                !connectionData[getYamlData.entryPoint] ||
+                !connectionData[getYamlData.entryPoint].success
+              "
             >
               Weiter
             </v-btn>
@@ -211,6 +219,7 @@ export default {
         this.validationResult = undefined;
         this.validationError = e;
       }
+      this.connectionData = [];
     },
     currentStep: function () {
       this.maxStep = Math.max(this.maxStep, this.currentStep);
