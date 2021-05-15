@@ -516,21 +516,71 @@
         },
         "output": {
             "type": "object",
-            "description": "",
+            "description": "Output values",
             "patternProperties": {
                 "^[a-z][a-zA-Z0-9_-]+$": {
                     "type": "object",
+                    "description": "Name of the output",
                     "properties": {
                         "type": {
                             "type": "string",
-                            "description": "",
+                            "description": "Type",
                             "enum": [
                                 "list",
                                 "polygon",
                                 "image",
                                 "html"
                             ]
+                        },
+                        "repeat": {
+                            "type": "boolean",
+                            "description": "Is the value an array of this type?"
+                        },
+                        "label": {
+                            "type": "string",
+                            "description": "Label of values. Can be an array if repeat is true"
                         }
+                    },
+                    "required": ["type", "repeat", "label"],
+                    "if": {
+                        "properties": {
+                            "type": {
+                                "const": "list"
+                            }
+                        }
+                    },
+                    "then": {
+                        "properties": {
+                            "format": {
+                                "type": "object",
+                                "description": "Format of this input",
+                                "properties": {
+                                    "multipleValues": {
+                                        "type": "boolean",
+                                        "description": "Can this element contain multiple values?"
+                                    },
+                                    "labelName": {
+                                        "type": "string",
+                                        "description": "Name of label(s). If multiple values is true this must be an array"
+                                    },
+                                    "labelValue": {
+                                        "type": "string",
+                                        "description": "value of labels"
+                                    },
+                                    "representation": {
+                                        "type": "string",
+                                        "description": "type of list",
+                                        "enum": [
+                                            "discretePercentageBar",
+                                            "percentageBar",
+                                            "text"
+                                        ]
+                                    }
+                                },
+                                "required": ["multipleValues", "labelName", "labelValue"]
+                            }
+                        },
+                        "required": ["format"]
                     }
                 }
             }
