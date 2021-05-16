@@ -140,7 +140,6 @@
                 !connectionData[getYamlData.entryPoint].success
               "
             >
-            
               Weiter
             </v-btn>
           </v-row>
@@ -153,19 +152,22 @@
             icon="mdi-emoticon-confused-outline"
             border="left"
           >
-            Dieser Abschnitt ist aktuell in Arbeit. Aktuell sind folgende Funktionen implementiert:
+            Dieser Abschnitt ist aktuell in Arbeit. Aktuell sind folgende
+            Funktionen implementiert:
             <ul>
               <li>List</li>
               <li>HTML</li>
             </ul>
           </v-alert>
-          <v-container v-if="getYamlData && getYamlData.output && connectionData">
+          <v-container
+            v-if="getYamlData && getYamlData.output && connectionData"
+          >
             <div class="ma-4 pa-4" v-if="description !== ''">
               <OutputInfo
-                  :output="getYamlData.output"
-                  :input-vars="inputData"
-                  :connectionData="connectionData[getYamlData.entryPoint]"
-                />
+                :output="getYamlData.output"
+                :input-vars="inputData"
+                :connectionData="connectionData[getYamlData.entryPoint]"
+              />
             </div>
           </v-container>
           <v-row align="center" justify="space-around" class="ma-2">
@@ -273,7 +275,7 @@ export default {
     ConnectionInfo,
     codemirror,
     TooltipGenerator,
-    OutputInfo
+    OutputInfo,
   },
   methods: {
     getErrorFromSchema(schema) {
