@@ -155,6 +155,7 @@
             Dieser Abschnitt ist aktuell in Arbeit. Aktuell sind folgende Funktionen implementiert:
             <ul>
               <li>List</li>
+              <li>HTML</li>
             </ul>
           </v-alert>
           <v-container v-if="getYamlData && getYamlData.output && connectionData">
