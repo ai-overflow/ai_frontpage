@@ -533,15 +533,37 @@
                             ]
                         },
                         "repeat": {
-                            "type": "boolean",
-                            "description": "Is the value an array of this type?"
+                            "type": "object",
+                            "description": "Is the value an array of this type?",
+                            "properties": {
+                                "enable": {
+                                    "type": "boolean",
+                                    "description": "enable repeated values"
+                                }
+                            },
+                            "if": {
+                                "properties": {
+                                    "enable": {
+                                        "const": true
+                                    }
+                                }
+                            },
+                            "then": {
+                                "properties": {
+                                    "iterator": {
+                                        "type": "string",
+                                        "description": "Iterator for repeated values"
+                                    }
+                                },
+                                "required": ["iterator"]
+                            }
                         },
                         "label": {
                             "type": "string",
                             "description": "Label of values. Can be an array if repeat is true"
                         }
                     },
-                    "required": ["type", "repeat", "label"],
+                    "required": ["type", "label"],
                     "if": {
                         "properties": {
                             "type": {
@@ -555,10 +577,6 @@
                                 "type": "object",
                                 "description": "Format of this input",
                                 "properties": {
-                                    "multipleValues": {
-                                        "type": "boolean",
-                                        "description": "Can this element contain multiple values?"
-                                    },
                                     "labelName": {
                                         "type": "string",
                                         "description": "Name of label(s). If multiple values is true this must be an array"
@@ -577,7 +595,7 @@
                                         ]
                                     }
                                 },
-                                "required": ["multipleValues", "labelName", "labelValue"]
+                                "required": ["labelName", "labelValue"]
                             }
                         },
                         "required": ["format"]

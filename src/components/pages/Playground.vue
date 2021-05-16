@@ -152,14 +152,19 @@
             icon="mdi-emoticon-confused-outline"
             border="left"
           >
-            Sie haben das Ende des Playgrounds erreicht. Der Schritt "Ausgabe"
-            ist aktuell in Bearbeitung. Bitte warten Sie einige Tage...
+            Dieser Abschnitt ist aktuell in Arbeit. Aktuell sind folgende Funktionen implementiert:
+            <ul>
+              <li>List</li>
+            </ul>
           </v-alert>
-          <v-container>
-            <v-card class="ma-4 pa-4" v-if="description !== ''">
-              <h2>Ausgabe</h2>
-              <pre>TODO</pre>
-            </v-card>
+          <v-container v-if="getYamlData && getYamlData.output && connectionData">
+            <div class="ma-4 pa-4" v-if="description !== ''">
+              <OutputInfo
+                  :output="getYamlData.output"
+                  :input-vars="inputData"
+                  :connectionData="connectionData[getYamlData.entryPoint]"
+                />
+            </div>
           </v-container>
           <v-row align="center" justify="space-around" class="ma-2">
             <v-btn @click="currentStep = 2"> Zurück </v-btn>
@@ -181,6 +186,7 @@
 import yaml from "js-yaml";
 import DisplayInput from "@/components/DisplayInput";
 import ConnectionInfo from "@/components/ConnectionInfo";
+import OutputInfo from "@/components/OutputInfo";
 import { codemirror } from "vue-codemirror";
 import CodeMirror from "codemirror";
 import validationSchema from "@/assets/dlschema.json";
@@ -248,7 +254,7 @@ export default {
         end.ch = cm.getTokenAt(start).end;
         start.ch -= 1;
 
-        const result = [
+        return [
           {
             from: start,
             to: end,
@@ -256,7 +262,6 @@ export default {
             severity: "error",
           },
         ];
-        return result;
       }
       return [];
     });
@@ -266,6 +271,7 @@ export default {
     ConnectionInfo,
     codemirror,
     TooltipGenerator,
+    OutputInfo
   },
   methods: {
     getErrorFromSchema(schema) {

@@ -136,18 +136,25 @@ export default {
     sendRequest(input, name) {
       doRequest(this.host, input, this.inputVars)
         .then((e) => {
-          this.$set(this.serverReply, name, {success: true, value: e.data});
+          this.$set(this.serverReply, name, { success: true, value: e.data });
         })
         .catch((e) => {
           console.log("Error: ", e);
-          this.$set(this.serverReply, name, {success: false, value: e.message + "\nSee Browser Developement Console (Chrome: F12) for more information."});
+          this.$set(this.serverReply, name, {
+            success: false,
+            value:
+              e.message +
+              "\nSee Browser Developement Console (Chrome: F12) for more information.",
+          });
         });
     },
   },
   watch: {
-    serverReply: function () {
-      console.log("change");
-      this.$emit("input", this.serverReply);
+    serverReply: {
+      deep: true,
+      handler() {
+        this.$emit("input", this.serverReply);
+      },
     },
   },
 };
