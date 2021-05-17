@@ -45,6 +45,7 @@ export default {
       return (
         (!this.yamlData ||
           !this.yamlData.entryPoint ||
+          !this.connectionData ||
           !this.connectionData[this.yamlData.entryPoint] ||
           !this.connectionData[this.yamlData.entryPoint].success) &&
         this.currentStep == 2

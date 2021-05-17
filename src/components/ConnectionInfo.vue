@@ -86,9 +86,9 @@
           <v-container class="preview-container">
             <pre>
             {{ serverReply[name].value }}
-          </pre
-            >
+            </pre>
           </v-container>
+          Reply:
         </div>
       </v-tab-item>
     </v-tabs-items>
@@ -153,7 +153,10 @@ export default {
     serverReply: {
       deep: true,
       handler() {
-        this.$emit("input", this.serverReply);
+        this.$nextTick(() => {
+          this.$emit("input", this.serverReply);
+          //console.log(JSON.stringify(this.serverReply));
+        });
       },
     },
   },

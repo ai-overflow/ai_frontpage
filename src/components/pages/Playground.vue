@@ -136,6 +136,7 @@
               :disabled="
                 !getYamlData ||
                 !getYamlData.entryPoint ||
+                !connectionData ||
                 !connectionData[getYamlData.entryPoint] ||
                 !connectionData[getYamlData.entryPoint].success
               "
@@ -166,7 +167,8 @@
               <OutputInfo
                 :output="getYamlData.output"
                 :input-vars="inputData"
-                :connectionData="connectionData[getYamlData.entryPoint]"
+                :connectionData="connectionData"
+                :entryPoint="getYamlData.entryPoint"
               />
             </div>
           </v-container>
@@ -219,6 +221,10 @@ export default {
       },
     };
   },
+  created() {
+    if (localStorage.getItem("savedContent"))
+      this.description = localStorage.getItem("savedContent");
+  },
   watch: {
     description: function () {
       let v = new Validator();
@@ -230,6 +236,7 @@ export default {
         this.validationError = e;
       }
       this.connectionData = [];
+      localStorage.setItem("savedContent", this.description);
     },
     currentStep: function () {
       this.maxStep = Math.max(this.maxStep, this.currentStep);
