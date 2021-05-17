@@ -158,6 +158,9 @@
             <ul>
               <li>List</li>
               <li>HTML</li>
+              <li>iFrame</li>
+              <li>Image (ohne interne Verbindung)</li>
+              <li>Polygon (Filled)</li>
             </ul>
           </v-alert>
           <v-container
@@ -235,7 +238,7 @@ export default {
         this.validationResult = undefined;
         this.validationError = e;
       }
-      this.connectionData = [];
+      this.connectionData = {};
       localStorage.setItem("savedContent", this.description);
     },
     currentStep: function () {

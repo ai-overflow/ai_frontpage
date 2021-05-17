@@ -88,7 +88,6 @@
             {{ serverReply[name].value }}
             </pre>
           </v-container>
-          Reply:
         </div>
       </v-tab-item>
     </v-tabs-items>
@@ -106,14 +105,14 @@ export default {
     connections: Object,
     entryPoint: String,
     inputVars: Object,
-    value: Array,
+    value: Object,
   },
   data() {
     return {
       tabs: null,
       paramTabs: [],
       host: "localhost",
-      serverReply: [],
+      serverReply: {},
     };
   },
   components: {
@@ -137,6 +136,7 @@ export default {
       doRequest(this.host, input, this.inputVars)
         .then((e) => {
           this.$set(this.serverReply, name, { success: true, value: e.data });
+          //this.serverReply[name] = { success: true, value: e.data };
         })
         .catch((e) => {
           console.log("Error: ", e);

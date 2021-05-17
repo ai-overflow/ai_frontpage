@@ -33,7 +33,7 @@ import { parseParams } from "@shared/helper/paramParser";
 export default {
   props: {
     output: Object,
-    connectionData: Array,
+    connectionData: Object,
     inputVars: Object,
     entryPoint: String,
   },

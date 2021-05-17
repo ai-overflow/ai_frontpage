@@ -529,7 +529,8 @@
                                 "list",
                                 "polygon",
                                 "image",
-                                "html"
+                                "html",
+                                "iframe"
                             ]
                         },
                         "repeat": {
