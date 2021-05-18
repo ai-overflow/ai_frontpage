@@ -153,15 +153,7 @@
             icon="mdi-emoticon-confused-outline"
             border="left"
           >
-            Dieser Abschnitt ist aktuell in Arbeit. Aktuell sind folgende
-            Funktionen implementiert:
-            <ul>
-              <li>List</li>
-              <li>HTML</li>
-              <li>iFrame</li>
-              <li>Image (ohne interne Verbindung)</li>
-              <li>Polygon (Filled)</li>
-            </ul>
+            <strong>Achtung:</strong> aktuell ist es noch nicht möglich Bilder mit interner Verbindung anzuzeigen. Hier erfolgt die Ausgabe "TODO: REQUEST <code>VERBINDUNG</code>".
           </v-alert>
           <v-container
             v-if="getYamlData && getYamlData.output && connectionData"
