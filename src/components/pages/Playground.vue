@@ -111,7 +111,7 @@
             </v-card>
             <v-card class="ma-4 pa-4" v-if="description !== ''" elevation="0">
               <h2>JSON-Repräsentation</h2>
-              <pre>{{ inputData }}</pre>
+              <pre>{{ cutJSON(inputData) }}</pre>
             </v-card>
             <v-card class="ma-4 pa-4" v-if="description !== ''" elevation="0">
               <h2>Verbindungen</h2>
@@ -193,6 +193,7 @@ import CodeMirror from "codemirror";
 import validationSchema from "@/assets/dlschema.json";
 import { Validator } from "jsonschema";
 import TooltipGenerator from "@/components/helper/TooltipGenerator";
+import { cutStringLength } from "@shared/helper/utility";
 import "codemirror/addon/lint/lint.js";
 import "codemirror/addon/lint/lint.css";
 
@@ -285,6 +286,15 @@ export default {
         return schema.oneOf.map((e) => e.const);
       }
     },
+    cutJSON(json) {
+      let retJSON = Object.assign({}, json)
+      for(let [k, v] of Object.entries(json)) {
+        if(typeof v === "string") {
+          retJSON[k] = cutStringLength(v, 70);
+        }
+      }
+      return retJSON;
+    }
   },
 };
 </script>
