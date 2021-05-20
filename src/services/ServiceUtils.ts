@@ -3,7 +3,7 @@
     provides some default values, that can be modified with the
     options object
  */
-export function parseOptionsToAxiosConfig(options) {
+export function parseOptionsToAxiosConfig(options: any) {
     const parsedConfig = {
         errorHandle: true
     };

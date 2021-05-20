@@ -155,7 +155,6 @@ export default {
       deep: true,
       handler() {
         this.$nextTick(() => {
-          console.log("fine");
           this.$emit("input", this.serverReply);
         });
       },

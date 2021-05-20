@@ -5,7 +5,7 @@ const API_PATH = "http://localhost:3000/pages";
 
 class PageService {
 
-    listPages(options) {
+    listPages(options: any) {
         return axios.get(API_PATH, parseOptionsToAxiosConfig(options))
         .then(response => {
             return response.data;

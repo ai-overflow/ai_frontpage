@@ -5,7 +5,7 @@ const API_PATH = "/project/";
 
 class GitService {
 
-    createProject(gitURL, options={}) {
+    createProject(gitURL: string, options={}) {
         const cfg = Object.assign({ git_url: gitURL }, parseOptionsToAxiosConfig(options));
         return axios.post(API_PATH, cfg)
             .then(response => {
@@ -13,14 +13,14 @@ class GitService {
             });
     }
 
-    listProjects(options) {
+    listProjects(options: any) {
         return axios.get(API_PATH, parseOptionsToAxiosConfig(options))
         .then(response => {
             return response.data;
         });
     }
 
-    getProjectDetails(projectId, options) {
+    getProjectDetails(projectId: number, options: any) {
         return axios.get(API_PATH + projectId, parseOptionsToAxiosConfig(options))
         .then(response => {
             return response.data;
