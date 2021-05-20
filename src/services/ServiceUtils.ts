@@ -4,7 +4,7 @@
     options object
  */
 export function parseOptionsToAxiosConfig(options) {
-    let parsedConfig = {
+    const parsedConfig = {
         errorHandle: true
     };
     return Object.assign(parsedConfig, options);

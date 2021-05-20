@@ -79,13 +79,13 @@
             </v-btn>
           </h3>
         </v-container>
-        <div v-if="serverReply[name]">
+        <div v-if="serverReply.get(name)">
           <v-container class="output-bar">
             <h3 class="text-center">Ausgabe</h3>
           </v-container>
           <v-container class="preview-container">
             <pre>
-            {{ serverReply[name].value }}
+            {{ serverReply.get(name).value }}
             </pre>
           </v-container>
         </div>
@@ -105,14 +105,14 @@ export default {
     connections: Object,
     entryPoint: String,
     inputVars: Object,
-    value: Object,
+    value: Map,
   },
   data() {
     return {
       tabs: null,
       paramTabs: [],
       host: "localhost",
-      serverReply: {},
+      serverReply: new Map(),
     };
   },
   components: {
@@ -135,8 +135,9 @@ export default {
     sendRequest(input, name) {
       doRequest(this.host, input, this.inputVars)
         .then((e) => {
-          this.$set(this.serverReply, name, { success: true, value: e.data });
-          //this.serverReply[name] = { success: true, value: e.data };
+          // ok, look, this is stupid, but it works.
+          // Vue doesn't listen to .set(), so we need to assign to push an update
+          this.serverReply = new Map(this.serverReply.set(name, { success: true, value: e.data }));
         })
         .catch((e) => {
           console.log("Error: ", e);
@@ -154,8 +155,8 @@ export default {
       deep: true,
       handler() {
         this.$nextTick(() => {
+          console.log("fine");
           this.$emit("input", this.serverReply);
-          //console.log(JSON.stringify(this.serverReply));
         });
       },
     },

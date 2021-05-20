@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { routes } from "@/router.js";
+import { routes } from "@/router";
 
 export default {
   data() {

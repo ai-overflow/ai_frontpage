@@ -28,12 +28,12 @@
 
 <script>
 import OutputGenerator from "@shared/components/output/OutputGenerator";
-import { parseParams } from "@shared/helper/paramParser.ts";
+import { parseParams } from "@shared/helper/paramParser";
 
 export default {
   props: {
     output: Object,
-    connectionData: Object,
+    connectionData: Map,
     inputVars: Object,
     entryPoint: String,
   },

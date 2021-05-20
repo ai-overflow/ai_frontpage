@@ -137,8 +137,8 @@
                 !getYamlData ||
                 !getYamlData.entryPoint ||
                 !connectionData ||
-                !connectionData[getYamlData.entryPoint] ||
-                !connectionData[getYamlData.entryPoint].success
+                !connectionData.get(getYamlData.entryPoint) ||
+                !connectionData.get(getYamlData.entryPoint).success
               "
             >
               Weiter
@@ -209,7 +209,7 @@ export default {
       validationResult: undefined,
       validationError: undefined,
       inputData: {},
-      connectionData: undefined,
+      connectionData: new Map(),
       cmOptions: {
         lint: true,
         gutters: ["CodeMirror-lint-markers"],
@@ -231,7 +231,7 @@ export default {
         this.validationResult = undefined;
         this.validationError = e;
       }
-      this.connectionData = {};
+      this.connectionData = new Map();
       localStorage.setItem("savedContent", this.description);
     },
     currentStep: function () {
