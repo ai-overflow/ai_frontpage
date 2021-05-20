@@ -28,7 +28,7 @@
 
 <script>
 import OutputGenerator from "@shared/components/output/OutputGenerator";
-import { parseParams } from "@shared/helper/paramParser";
+import { parseParams } from "@shared/helper/paramParser.ts";
 
 export default {
   props: {
