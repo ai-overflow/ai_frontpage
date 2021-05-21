@@ -133,7 +133,7 @@ export default {
       });
     },
     sendRequest(input, name) {
-      doRequest(this.host, input, this.inputVars)
+      doRequest(this.host, input)
         .then((e) => {
           // ok, look, this is stupid, but it works.
           // Vue doesn't listen to .set(), so we need to assign to push an update

@@ -28,7 +28,7 @@
 
 <script>
 import OutputGenerator from "@shared/components/output/OutputGenerator";
-import { parseParams } from "@shared/helper/paramParser";
+import { paramParser } from "@shared/helper/paramParser";
 
 export default {
   props: {
@@ -40,7 +40,7 @@ export default {
   components: { OutputGenerator },
   methods: {
     parseParams(str) {
-      return parseParams(str, this.inputVars, this.connectionData);
+      return paramParser.parseParams(str);
     },
   }
 };

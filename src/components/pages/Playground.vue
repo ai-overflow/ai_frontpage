@@ -153,7 +153,9 @@
             icon="mdi-emoticon-confused-outline"
             border="left"
           >
-            <strong>Achtung:</strong> aktuell ist es noch nicht möglich Bilder mit interner Verbindung anzuzeigen. Hier erfolgt die Ausgabe "TODO: REQUEST <code>VERBINDUNG</code>".
+            <strong>Achtung:</strong> aktuell ist es noch nicht möglich Bilder
+            mit interner Verbindung anzuzeigen. Hier erfolgt die Ausgabe "TODO:
+            REQUEST <code>VERBINDUNG</code>".
           </v-alert>
           <v-container
             v-if="getYamlData && getYamlData.output && connectionData"
@@ -193,6 +195,7 @@ import CodeMirror from "codemirror";
 import validationSchema from "@/assets/dlschema.json";
 import { Validator } from "jsonschema";
 import TooltipGenerator from "@/components/helper/TooltipGenerator";
+import { paramParser } from "@shared/helper/paramParser";
 import { cutStringLength } from "@shared/helper/utility";
 import "codemirror/addon/lint/lint.js";
 import "codemirror/addon/lint/lint.css";
@@ -220,6 +223,8 @@ export default {
   created() {
     if (localStorage.getItem("savedContent"))
       this.description = localStorage.getItem("savedContent");
+    paramParser.connection = this.connectionData;
+    paramParser.input = this.inputData;
   },
   watch: {
     description: function () {
@@ -236,6 +241,12 @@ export default {
     },
     currentStep: function () {
       this.maxStep = Math.max(this.maxStep, this.currentStep);
+    },
+    connectionData: function () {
+      paramParser.connection = this.connectionData;
+    },
+    inputData: function () {
+      paramParser.input = this.inputData;
     },
   },
   computed: {
@@ -287,14 +298,14 @@ export default {
       }
     },
     cutJSON(json) {
-      let retJSON = Object.assign({}, json)
-      for(let [k, v] of Object.entries(json)) {
-        if(typeof v === "string") {
+      let retJSON = Object.assign({}, json);
+      for (let [k, v] of Object.entries(json)) {
+        if (typeof v === "string") {
           retJSON[k] = cutStringLength(v, 70);
         }
       }
       return retJSON;
-    }
+    },
   },
 };
 </script>
