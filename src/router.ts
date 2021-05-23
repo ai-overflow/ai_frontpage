@@ -7,7 +7,8 @@ import AppDetails from "@pages/AppDetails.vue";
 import Playground from "@pages/Playground.vue";
 import DockerControl from "@pages/DockerControl.vue";
 import Pages from "@pages/Pages.vue";
-import config from "../vue.config";
+
+const config: any = require("../vue.config");
 
 Vue.use(Router);
 
