@@ -50,7 +50,7 @@ export default {
       return this.output[link.with][link.field];
     },
     generateLinkDir(link) {
-      if (!link || !link.with || !link.field || !this.output[link.with]) return;
+      if (!link || !link.with || !this.output[link.with]) return;
 
       return link.with;
     },
