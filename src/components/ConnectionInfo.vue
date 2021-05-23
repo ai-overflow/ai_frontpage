@@ -133,10 +133,13 @@ export default {
       });
     },
     sendRequest(input, name) {
-      doRequest(this.host, input, this.inputVars)
+      doRequest(this.host, input)
         .then((e) => {
+          // ok, look, this is stupid, but it works.
+          // Vue doesn't listen to .set(), so we need to assign to push an update
+          //this.serverReply = new Map(this.serverReply.set(name, { success: true, value: e.data }));
+
           this.$set(this.serverReply, name, { success: true, value: e.data });
-          //this.serverReply[name] = { success: true, value: e.data };
         })
         .catch((e) => {
           console.log("Error: ", e);
@@ -155,7 +158,6 @@ export default {
       handler() {
         this.$nextTick(() => {
           this.$emit("input", this.serverReply);
-          //console.log(JSON.stringify(this.serverReply));
         });
       },
     },
