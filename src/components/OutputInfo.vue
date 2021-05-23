@@ -11,6 +11,7 @@
           <OutputGenerator
             :output="item"
             :inputVars="inputVars"
+            :outputVars="connectionData"
             v-model="models[generateLinkDir(item.format.link)]"
             :highlight="models[name]"
           />
@@ -20,6 +21,7 @@
         <OutputGenerator
           :output="item"
           :inputVars="inputVars"
+          :outputVars="connectionData"
           v-model="models[generateLinkDir(item.format.link)]"
           :highlight="models[name]"
         />
