@@ -137,8 +137,8 @@
                 !getYamlData ||
                 !getYamlData.entryPoint ||
                 !connectionData ||
-                !connectionData.get(getYamlData.entryPoint) ||
-                !connectionData.get(getYamlData.entryPoint).success
+                !connectionData[getYamlData.entryPoint] ||
+                !connectionData[getYamlData.entryPoint].success
               "
             >
               Weiter
@@ -158,7 +158,12 @@
             REQUEST <code>VERBINDUNG</code>".
           </v-alert>
           <v-container
-            v-if="getYamlData && getYamlData.output && connectionData"
+            v-if="
+              getYamlData &&
+              getYamlData.output &&
+              connectionData[getYamlData.entryPoint] &&
+              connectionData[getYamlData.entryPoint].success
+            "
           >
             <div class="ma-4 pa-4" v-if="description !== ''">
               <OutputInfo
@@ -212,7 +217,7 @@ export default {
       validationResult: undefined,
       validationError: undefined,
       inputData: {},
-      connectionData: new Map(),
+      connectionData: {},
       cmOptions: {
         lint: true,
         gutters: ["CodeMirror-lint-markers"],
@@ -236,7 +241,7 @@ export default {
         this.validationResult = undefined;
         this.validationError = e;
       }
-      this.connectionData = new Map();
+      this.connectionData = {};
       localStorage.setItem("savedContent", this.description);
     },
     currentStep: function () {

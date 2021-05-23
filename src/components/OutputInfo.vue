@@ -9,17 +9,19 @@
         <div>
           <!-- TODO -->
           <OutputGenerator
-            :connectionData="connectionData"
             :output="item"
             :inputVars="inputVars"
+            v-model="models[generateLinkDir(item.format.link)]"
+            :highlight="models[name]"
           />
         </div>
       </div>
       <div v-else class="limited-height-container">
         <OutputGenerator
-          :connectionData="connectionData"
           :output="item"
           :inputVars="inputVars"
+          v-model="models[generateLinkDir(item.format.link)]"
+          :highlight="models[name]"
         />
       </div>
     </div>
@@ -33,7 +35,7 @@ import { paramParser } from "@shared/helper/paramParser";
 export default {
   props: {
     output: Object,
-    connectionData: Map,
+    connectionData: Object,
     inputVars: Object,
     entryPoint: String,
   },
@@ -42,7 +44,22 @@ export default {
     parseParams(str) {
       return paramParser.parseParams(str);
     },
-  }
+    getHighlighting(link) {
+      if (!link || !link.with || !link.field || !this.output[link.with]) return;
+
+      return this.output[link.with][link.field];
+    },
+    generateLinkDir(link) {
+      if (!link || !link.with || !link.field || !this.output[link.with]) return;
+
+      return link.with;
+    },
+  },
+  data() {
+    return {
+      models: {},
+    };
+  },
 };
 </script>
 

@@ -27,7 +27,7 @@
 export default {
   props: {
     validationResult: Object,
-    connectionData: Map,
+    connectionData: Object,
     description: String,
     currentStep: Number,
     yamlData: Object,
