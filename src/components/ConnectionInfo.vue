@@ -84,7 +84,12 @@
             <h3 class="text-center">Ausgabe</h3>
           </v-container>
           <v-container class="preview-container">
-            <pre>
+            <img
+              alt="test"
+              v-if="serverReply[name].contentType.startsWith('image')"
+              :src="serverReply[name].value"
+            />
+            <pre v-else>
             {{ serverReply[name].value }}
             </pre>
           </v-container>
@@ -98,7 +103,7 @@
 import BodyTable from "@/components/helper/BodyTable";
 import { VTextField } from "vuetify/lib";
 import VarText from "@/components/helper/VarText";
-import doRequest from "@shared/helper/connection";
+import doRequest, { generateDataFromResponse } from "@shared/helper/connection";
 
 export default {
   props: {
@@ -135,11 +140,13 @@ export default {
     sendRequest(input, name) {
       doRequest(this.host, input)
         .then((e) => {
-          // ok, look, this is stupid, but it works.
-          // Vue doesn't listen to .set(), so we need to assign to push an update
-          //this.serverReply = new Map(this.serverReply.set(name, { success: true, value: e.data }));
+          let content = generateDataFromResponse(e);
 
-          this.$set(this.serverReply, name, { success: true, value: e.data });
+          this.$set(this.serverReply, name, {
+            success: true,
+            value: content,
+            contentType: e.headers["content-type"],
+          });
         })
         .catch((e) => {
           console.log("Error: ", e);
