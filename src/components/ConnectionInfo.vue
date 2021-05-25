@@ -73,8 +73,19 @@
         </v-card>
         <v-container class="ma-2">
           <h3 class="text-center">
-            <v-btn color="primary" dark @click="() => sendRequest(item, name)"
-              >Abschicken
+            <v-btn
+              color="primary"
+              :dark="!sendDisabled"
+              @click="() => sendRequest(item, name)"
+              :disabled="sendDisabled"
+            >
+              <v-progress-circular
+                indeterminate
+                color="grey"
+                :size="20"
+                v-if="sendDisabled"
+              ></v-progress-circular>
+              Abschicken
               <v-icon right dark> mdi-send </v-icon>
             </v-btn>
           </h3>
@@ -118,6 +129,7 @@ export default {
       paramTabs: [],
       host: "localhost",
       serverReply: {},
+      sendDisabled: false,
     };
   },
   components: {
@@ -138,6 +150,10 @@ export default {
       });
     },
     sendRequest(input, name) {
+      this.sendDisabled = true;
+      this.$delete(this.serverReply, name);
+      this.$emit("input", this.serverReply);
+
       doRequest(this.host, input)
         .then((e) => {
           let content = generateDataFromResponse(e);
@@ -156,6 +172,9 @@ export default {
               e.message +
               "\nSee Browser Developement Console (Chrome: F12) for more information.",
           });
+        })
+        .finally(() => {
+          this.sendDisabled = false;
         });
     },
   },
