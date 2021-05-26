@@ -97,7 +97,7 @@
           <v-container class="preview-container">
             <img
               alt="test"
-              v-if="serverReply[name].contentType.startsWith('image')"
+              v-if="serverReply[name].contentType && serverReply[name].contentType.startsWith('image')"
               :src="serverReply[name].value"
             />
             <pre v-else>
