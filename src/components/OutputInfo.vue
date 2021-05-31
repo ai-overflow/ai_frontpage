@@ -7,7 +7,6 @@
         class="limited-height-container"
       >
         <div v-for="[i, el] of [...parseIterator(item.repeat.iterator)].entries()" :key="i">
-          <strong>{{parseIterator(item.repeat.title)[i]}}</strong>
           <!-- TODO -->
           <OutputGenerator
             :output="item"
@@ -16,6 +15,7 @@
             v-model="models[generateLinkDir(item.format.link)]"
             :highlight="models[name]"
             :iterator="el"
+            :title="parseIterator(item.repeat.title)[i]"
           />
         </div>
       </div>
@@ -67,6 +67,11 @@ export default {
       models: {},
     };
   },
+  watch: {
+    output: function() {
+      console.log(this.output)
+    }
+  }
 };
 </script>
 

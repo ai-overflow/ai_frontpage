@@ -146,17 +146,6 @@
           </v-row>
         </v-stepper-content>
         <v-stepper-content step="3">
-          <v-alert
-            text
-            dense
-            color="red"
-            icon="mdi-emoticon-confused-outline"
-            border="left"
-          >
-            <strong>Achtung:</strong> aktuell ist es noch nicht möglich Bilder
-            mit interner Verbindung anzuzeigen. Hier erfolgt die Ausgabe "TODO:
-            REQUEST <code>VERBINDUNG</code>".
-          </v-alert>
           <v-container
             v-if="
               getYamlData &&
@@ -204,6 +193,7 @@ import { paramParser } from "@shared/helper/paramParser";
 import { cutStringLength } from "@shared/helper/utility";
 import "codemirror/addon/lint/lint.js";
 import "codemirror/addon/lint/lint.css";
+import doRequest from '@/shared/helper/connection';
 
 // jsondiffpatch
 // js-yaml
@@ -230,6 +220,9 @@ export default {
       this.description = localStorage.getItem("savedContent");
     paramParser.connection = this.connectionData;
     paramParser.input = this.inputData;
+    paramParser.sendRequest = (connectionName) => {
+      return doRequest("localhost", this.getYamlData?.connection[connectionName])
+    }
   },
   watch: {
     description: function () {
